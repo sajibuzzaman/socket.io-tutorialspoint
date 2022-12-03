@@ -31,8 +31,15 @@ io.on("connection", function (socket) {
   //   });
 
   //** Broadcast to all connected users with itself */
+  //   clients++;
+  //   io.sockets.emit("broadcast", {
+  //     description: clients + " clients connected!",
+  //   });
+
+  //** Broadcast to all connected users without itself */
   clients++;
-  io.sockets.emit("broadcast", {
+  socket.emit("newclientconnect", { description: "Hey, welcome!" });
+  socket.broadcast.emit("newclientconnect", {
     description: clients + " clients connected!",
   });
 
@@ -41,8 +48,14 @@ io.on("connection", function (socket) {
     // console.log("A user disconnected");
 
     //** Broadcast to all connected users with itself */
+    // clients--;
+    // io.sockets.emit("broadcast", {
+    //   description: clients + " clients connected!",
+    // });
+
+    //** Broadcast to all connected users without itself */
     clients--;
-    io.sockets.emit("broadcast", {
+    socket.broadcast.emit("newclientconnect", {
       description: clients + " clients connected!",
     });
   });

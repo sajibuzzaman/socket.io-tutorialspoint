@@ -19,7 +19,13 @@
     // socket.emit('clientEvent', 'Sent an event from the client!');
 
     //** Broadcast to all connected users with itself */
-    socket.on("broadcast", function (data) {
+    //socket.on("broadcast", function (data) {
+    //  document.body.innerHTML = "";
+    // document.write(data.description);
+    //});
+
+    //** Broadcast to all connected users without itself */
+    socket.on("newclientconnect", function (data) {
       document.body.innerHTML = "";
       document.write(data.description);
     });
