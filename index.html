@@ -6,9 +6,14 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io();
-    socket.on("message", function (data) {
-      document.write(data);
-    });
+
+    // message event
+    // socket.on("message", function (data) {
+    //   document.write(data);
+    //  });
+
+    // Custom event
+    socket.on('testerEvent', function(data){document.write(data.description)});
   </script>
 
   <body>
