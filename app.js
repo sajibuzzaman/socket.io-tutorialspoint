@@ -10,6 +10,7 @@ app.get("/my-namespace2", function (req, res) {
 });
 
 var clients = 0;
+var roomno = 1;
 
 //** Whenever someone connects this gets executed */
 io.on("connection", function (socket) {
@@ -46,6 +47,14 @@ io.on("connection", function (socket) {
   //     description: clients + " clients connected!",
   //   });
 
+  //** Joining rooms */
+  socket.join("room-" + roomno);
+  //Send this event to everyone in the room.
+  io.sockets
+    .in("room-" + roomno)
+    .emit("connectToRoom", "You are in room no. " + roomno);
+
+
   //** Whenever someone disconnects this piece of code executed */
   socket.on("disconnect", function () {
     // console.log("A user disconnected");
@@ -62,18 +71,18 @@ io.on("connection", function (socket) {
   });
 });
 
-//** Custom namespace */
-var nsp = io.of('/my-namespace');
-nsp.on('connection', function(socket){
-   console.log('someone connected in nsp');
-   nsp.emit('hi', 'Hello nsp!');
-});
+// //** Custom namespace */
+// var nsp = io.of('/my-namespace');
+// nsp.on('connection', function(socket){
+//    console.log('someone connected in nsp');
+//    nsp.emit('hi', 'Hello nsp!');
+// });
 
-var nsp2 = io.of('/my-namespace2');
-nsp2.on('connection', function(socket){
-   console.log('someone connected nsp2');
-   nsp2.emit('hi', 'Hello nsp2!');
-});
+// var nsp2 = io.of('/my-namespace2');
+// nsp2.on('connection', function(socket){
+//    console.log('someone connected nsp2');
+//    nsp2.emit('hi', 'Hello nsp2!');
+// });
 
 http.listen(5000, () => {
   console.log("Server is listening in port 5000");
