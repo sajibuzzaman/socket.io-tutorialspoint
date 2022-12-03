@@ -6,16 +6,18 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/./index.html");
 });
 
-//Whenever someone connects this gets executed
-io.on("connection", function (socket) {
-  console.log("A user connected");
+var clients = 0;
 
-  // // message event
+//** Whenever someone connects this gets executed */
+io.on("connection", function (socket) {
+  //   console.log("A user connected");
+
+  //** message event */
   // setTimeout(function(){
   //     socket.send('Sent a message 4seconds after connection!');
   //  }, 4000);
 
-  //   // Custom event
+  //** Custom event */
   //   setTimeout(function () {
   //     // Sending an object when emmiting an event
   //     socket.emit("testerEvent", {
@@ -23,14 +25,26 @@ io.on("connection", function (socket) {
   //     });
   //   }, 4000);
 
-  // Receive event from the client
-  socket.on("clientEvent", function (data) {
-    console.log(data);
+  //** Receive event from the client */
+  //   socket.on("clientEvent", function (data) {
+  //     console.log(data);
+  //   });
+
+  //** Broadcast to all connected users with itself */
+  clients++;
+  io.sockets.emit("broadcast", {
+    description: clients + " clients connected!",
   });
 
-  //Whenever someone disconnects this piece of code executed
+  //** Whenever someone disconnects this piece of code executed */
   socket.on("disconnect", function () {
-    console.log("A user disconnected");
+    // console.log("A user disconnected");
+
+    //** Broadcast to all connected users with itself */
+    clients--;
+    io.sockets.emit("broadcast", {
+      description: clients + " clients connected!",
+    });
   });
 });
 

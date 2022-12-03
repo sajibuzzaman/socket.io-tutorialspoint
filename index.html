@@ -16,8 +16,13 @@
     // socket.on('testerEvent', function(data){document.write(data.description)});
 
     // sent event from the client
-    socket.emit('clientEvent', 'Sent an event from the client!');
+    // socket.emit('clientEvent', 'Sent an event from the client!');
 
+    //** Broadcast to all connected users with itself */
+    socket.on("broadcast", function (data) {
+      document.body.innerHTML = "";
+      document.write(data.description);
+    });
   </script>
 
   <body>
