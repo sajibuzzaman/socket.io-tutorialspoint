@@ -5,7 +5,7 @@
   </head>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    var socket = io();
+    // var socket = io();
 
     // message event
     // socket.on("message", function (data) {
@@ -25,9 +25,16 @@
     //});
 
     //** Broadcast to all connected users without itself */
-    socket.on("newclientconnect", function (data) {
+    //socket.on("newclientconnect", function (data) {
+    //  document.body.innerHTML = "";
+    // document.write(data.description);
+    //});
+
+    //** Custom namespace */
+    var socket = io("/my-namespace");
+    socket.on("hi", function (data) {
       document.body.innerHTML = "";
-      document.write(data.description);
+      document.write(data);
     });
   </script>
 

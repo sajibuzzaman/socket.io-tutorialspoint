@@ -5,6 +5,9 @@ var io = require("socket.io")(http);
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/./index.html");
 });
+app.get("/my-namespace2", function (req, res) {
+  res.sendFile(__dirname + "/./index2.html");
+});
 
 var clients = 0;
 
@@ -36,29 +39,40 @@ io.on("connection", function (socket) {
   //     description: clients + " clients connected!",
   //   });
 
-  //** Broadcast to all connected users without itself */
-  clients++;
-  socket.emit("newclientconnect", { description: "Hey, welcome!" });
-  socket.broadcast.emit("newclientconnect", {
-    description: clients + " clients connected!",
-  });
+  //   //** Broadcast to all connected users without itself */
+  //   clients++;
+  //   socket.emit("newclientconnect", { description: "Hey, welcome!" });
+  //   socket.broadcast.emit("newclientconnect", {
+  //     description: clients + " clients connected!",
+  //   });
 
   //** Whenever someone disconnects this piece of code executed */
   socket.on("disconnect", function () {
     // console.log("A user disconnected");
-
     //** Broadcast to all connected users with itself */
     // clients--;
     // io.sockets.emit("broadcast", {
     //   description: clients + " clients connected!",
     // });
-
     //** Broadcast to all connected users without itself */
-    clients--;
-    socket.broadcast.emit("newclientconnect", {
-      description: clients + " clients connected!",
-    });
+    // clients--;
+    // socket.broadcast.emit("newclientconnect", {
+    //   description: clients + " clients connected!",
+    // });
   });
+});
+
+//** Custom namespace */
+var nsp = io.of('/my-namespace');
+nsp.on('connection', function(socket){
+   console.log('someone connected in nsp');
+   nsp.emit('hi', 'Hello nsp!');
+});
+
+var nsp2 = io.of('/my-namespace2');
+nsp2.on('connection', function(socket){
+   console.log('someone connected nsp2');
+   nsp2.emit('hi', 'Hello nsp2!');
 });
 
 http.listen(5000, () => {

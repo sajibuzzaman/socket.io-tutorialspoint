@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello world</title>
+  </head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    //** Custom namespace */
+    var socket = io("/my-namespace2");
+    socket.on("hi", function (data) {
+      document.body.innerHTML = "";
+      document.write(data);
+    });
+  </script>
+
+  <body>
+    Hello world 2
+  </body>
+</html>
