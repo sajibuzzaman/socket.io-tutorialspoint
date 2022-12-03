@@ -13,7 +13,11 @@
     //  });
 
     // Custom event
-    socket.on('testerEvent', function(data){document.write(data.description)});
+    // socket.on('testerEvent', function(data){document.write(data.description)});
+
+    // sent event from the client
+    socket.emit('clientEvent', 'Sent an event from the client!');
+
   </script>
 
   <body>

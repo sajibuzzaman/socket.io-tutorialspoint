@@ -15,13 +15,18 @@ io.on("connection", function (socket) {
   //     socket.send('Sent a message 4seconds after connection!');
   //  }, 4000);
 
-  // Custom event
-  setTimeout(function () {
-    // Sending an object when emmiting an event
-    socket.emit("testerEvent", {
-      description: "A custom event named testerEvent!",
-    });
-  }, 4000);
+  //   // Custom event
+  //   setTimeout(function () {
+  //     // Sending an object when emmiting an event
+  //     socket.emit("testerEvent", {
+  //       description: "A custom event named testerEvent!",
+  //     });
+  //   }, 4000);
+
+  // Receive event from the client
+  socket.on("clientEvent", function (data) {
+    console.log(data);
+  });
 
   //Whenever someone disconnects this piece of code executed
   socket.on("disconnect", function () {
